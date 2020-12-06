@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<!-- Head -->
+<head>
+    <title>注册表单</title>
+    <!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- //Meta-Tags -->
+    <!-- Style -->
+    <link rel="stylesheet" href="css/common.css" type="text/css" media="all">
+</head>
+<body>
+<h1>XBiaoShop</h1>
+<div class="container w3layouts agileits pr">
+    <a href="login.html" class="back"></a>
+    <div class="register w3layouts agileits">
+        <h2>欢 迎 注 册</h2>
+        <form action="#" method="post" @submit.prevent="" id="login-form">
+            <input type="text" Name="Name" placeholder="用户名" required=""  v-model="user.username" @blur="checkUsername">
+            <input type="email" Name="Email" placeholder="邮箱" required=""  v-model="user.email" @blur="checkEmail">
+            <input type="password" Name="Password" placeholder="密码" required="" v-model="user.password" @blur="checkPassword">
+            <input type="password" Name="Password" placeholder="确认密码" required="" v-model="rePassword" @blur="checkPassword">
+        </form>
+        <div class="send-button w3layouts agileits">
+            <input type="submit" value="免费注册" @click="register">
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="footer w3layouts agileits">
+    <p>Copyright &copy; 2020.XB All rights reserved.</p>
+</div>
+</body>
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/layer.js"></script>
+<script src="js/axios-0.19.2.min.js"></script>
+<script src="js/vue-2.6.11.js"></script>
+<script>
+    let vm = new Vue({
+        el: '.container',
+        data: {
+            user: {},
+            rePassword:""
+        },
+        methods: {
+            register: function () {
+                let flag=true;
+                $('#login-form').find('input').each(function () {
+                    if ($(this).val() == '' || $(this).hasClass('input-error')){
+                        flag=false;
+                    }
+                    return;
+                });
+
+                if (flag){
+                    axios({
+                        url: 'user/register',
+                        method: 'post',
+                        data:this.user
+                    }).then(res=>{
+                        if (res.data.success){
+                            layer.msg(res.data.msg);
+                            location.href='login.html';
+                        }
+                    }).catch();
+                }else {
+                    layer.msg("信息有误！")
+                }
+            },
+            checkUsername:function (event) {
+                axios({
+                    url:`user/checkUsername/${this.user.username}`,
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){
+                        layer.msg(res.data.msg); //已经注册
+                        $(event.target).addClass('input-error');
+                    }else {
+                        $(event.target).removeClass('input-error');
+                    }
+                }).catch(error=>{
+
+                })
+            },
+            checkEmail:function (event) {
+                axios({
+                    url:`user/checkEmail/${this.user.email}`,
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){  //邮箱已近注册
+                        layer.msg(res.data.msg);
+                        $(event.target).addClass('input-error');
+                    }else {
+                        $(event.target).removeClass('input-error');
+                    }
+                }).catch(error=>{
+
+                })
+
+            },
+            checkPassword:function (event) {
+                if (this.rePassword!=''&&this.user.password!=''){
+                    if (this.rePassword!=this.user.password){
+                        layer.msg('两次密码不一致');
+                        $(event.target).addClass('input-error');
+                    }else {
+                        $(event.target).removeClass('input-error');
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</html>

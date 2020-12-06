@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>goodsDetail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/ken-burns.css" rel="stylesheet" type="text/css" media="all" /> <!-- 轮播图样式 -->
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"><!-- 图标样式 -->
+    <link rel="stylesheet" type="text/css" href="./css/goodDetail.css">
+    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" /><!-- 放大镜样式 -->
+    <link rel="stylesheet" href="css/share.min.css"><!-- 分享插件 -->
+
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/jquery-scrolltofixed-min.js" type="text/javascript"></script><!-- 导航栏 -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script defer src="js/jquery.flexslider.js"></script><!-- 放大镜 -->
+    <script src="js/imagezoom.js"></script><!-- 放大镜遮罩层 -->
+    <script src="js/main.js"></script>
+    <script src="js/jquery.menu-aim.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/goodsDetail.js"></script>
+    <script src="js/jquery.share.min.js"></script>
+    <script src="js/magnifier.js"></script>
+
+
+</head>
+
+<body>
+<div id="app">
+    <div class="header">
+        <div class="header">
+            <div class="w3ls-header">
+                <div class="w3ls-header-left">
+                    <p>
+                        <a href="#"><img style="position: relative;left: -10px; top: -1px" src="./images/shopping.png">
+                            XB全新高端购物平台
+                        </a>
+                    </p>
+                </div>
+                <div class="w3ls-header-right">
+                    <ul>
+                        <li class="dropdown head-dpdn">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"
+                                    aria-hidden="true"></i>人名<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="profile.html">个人中心</a></li>
+                                <li><a href="login.html">注销</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown head-dpdn">
+                            <a href="car.html" class="dropdown-toggle"><i class="fa fa-gift"
+                                    aria-hidden="true"></i>购物车</a>
+                        </li>
+                        <li class="dropdown head-dpdn">
+                            <a href="waitPay.html" class="dropdown-toggle"><i class="fa fa-credit-card-alt"
+                                    aria-hidden="true"></i>待支付</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="header-two">
+                <div class="container">
+                    <div class="header-logo">
+                        <h1><a href="home.html"><span>X</span>Biao </a></h1>
+                        <h6>Your stores. Your place.</h6>
+                    </div>
+                    <div class="header-search">
+                        <form action="#" method="post">
+                            <input type="search" name="Search" placeholder="Search for a Product..." required="">
+                            <button type="submit" class="btn btn-default" aria-label="Left Align">
+                                <i class="fa fa-search" aria-hidden="true"> </i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="header-cart">
+                        <div class="my-account">
+                            <a href="javascript:void(0);"></a>
+                        </div>
+                        <div class="cart">
+                            <a href="car.html">
+                                <button class="w3view-cart" type="submit" name="submit" value=""><i
+                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                            </a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="header-three">
+                <div class="container">
+                    <ul class="nav nav-pills nav-justified">
+                        <li v-for="category in categoryList"><a href="javascript:void(0);" @click="toDetail(category)">{{category.className}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="products">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb1">
+                <li><a href="home.html">Home</a></li>
+                <li class="active">商品详情</li>
+            </ol>
+            <div class="single-page">
+                <div class="single-page-row" id="detail-21">
+                    <div class="col-md-6 col-sm-6 single-top-left">
+                        <div id="magnifier">
+                            <div class="small-box">
+                                <img src="images/big_1.jpg" alt="#">
+                                <span class="hover"></span>
+                                <span class="hover"></span>
+                            </div>
+                            <div class="big-box">
+                                <img src="images/big_1.jpg" alt="#">
+                            </div>
+                            <div class="thumbnail-box">
+                                <a href="javascript:void(0);" class="btn btn-prev btn_prev_disabled"></a>
+                                <a href="javascript:void(0);" class="btn btn-next"></a>
+                                <div class="list">
+                                    <ul class="wrapper">
+                                        <li v-for="img in imagesList" class="item item-cur" :data-src="img"><img
+                                                :src="img" alt="#">
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 single-top-right">
+                        <h3 class="item_name">{{product.title}}</h3>
+                        <p>{{product.desc}}</p>
+                        <div class="single-rating">
+                            <ul>
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                <li class="rating">浏览量：{{product.browsCount}}</li>
+                            </ul>
+                        </div>
+                        <div class="single-price">
+                            <ul>
+                                <li class="goodsMoney">${{product.price}}</li>
+                                <li>发布时间:{{product.publishDate}}</li>
+                                <li><i class="fa fa-gift" aria-hidden="true"></i> Coupon</li>
+                            </ul>
+                        </div>
+
+                        <div class="numActive row">
+                            <div class="col-lg-6 col-sm-6">
+                                <span>数量:</span>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default sub" type="button" @click="reduceCount(shopCar.count)">-</button>
+                                    </span>
+                                    <input type="text" class="num form-control" v-model="shopCar.count">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default add" type="button" @click="addCount(shopCar.count)">+</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="input-group">
+                                    <p class="totalMoney">${{product.price*shopCar.count}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="javascript:void(0);">
+                            <button class="w3ls-cart" @click="addShopCar"><i class="fa fa-cart-plus" aria-hidden="true"></i>添加到购物车</button>
+                        </a>
+                        <button class="w3ls-cart w3ls-cart-like" @click="favoriteProduct"><i class="fa fa-heart-o"
+                                aria-hidden="true"></i>收藏</button>
+                        <div class="single-page-icons social-icons">
+                            <ul>
+                                <li>
+                                    <h4>Share on</h4>
+                                </li>
+                                <li class="social-share" data-sites="weibo"></li>
+                                <li class="social-share" data-sites="qq"></li>
+                                <li class="social-share" data-sites="wechat"></li>
+                                <li class="social-share" data-sites="qzone"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--最热商品-->
+    <div class="add-products">
+        <div class="container">
+            <h3 class="w3ls-title">热卖商品</h3>
+            <div class="add-products-row">
+
+                <div class=" w3ls-add-grids" v-for="p in HotShopProductList">
+                    <a href="javascript:void(0);">
+                        <img :src="p.image">
+                        <p>{{p.title}}<span>${{p.price}}</span></p>
+                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-right">
+        <div class="container">
+            <p>Copyright &copy; 2020.XB All rights reserved.<a target="_blank" href="#"></a></p>
+        </div>
+    </div>
+
+
+</div>
+</body> <!-- currentProduct-->
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/layer.js"></script>
+<script src="js/axios-0.19.2.min.js"></script>
+<script src="js/vue-2.6.11.js"></script>
+<script src="js/jquery-cookie-1.4.1.js"></script>
+<script src="js/custom.js"></script>
+<script>
+    $(function () {
+        $('#magnifier').magnifier();
+    });
+</script>
+<script>
+    let vm=new Vue({
+        el:'#app',
+        data:{
+            categoryList:{},
+            HotShopProductList:{},
+            title:"",
+            product:{},
+            imagesList:{},
+            shopCar:{count:1},
+            loginUser:JSON.parse(localStorage.getItem("loginUser"))
+        },
+        methods:{
+            selectCategoryList:function (){
+                axios({
+                    url:'/home/categoryList',
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){
+                        this.categoryList=res.data.obj;
+                    }
+                }).catch();
+            },
+            selectImage:function(){
+                axios({
+                    url:`/product/imagesList/${this.product.id}`,
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){
+                        this.imagesList=res.data.obj;
+                    }
+                }).catch();
+            },
+            selectHotShopProductList:function (isHot=1){
+                axios({
+                    url:`/home/productList/${isHot}`,
+                    method:'get',
+                    params:{title:this.title,pageCurrent:1,pageSize:4}
+                }).then(res=>{
+                    if (res.data.success){
+                        this.HotShopProductList=res.data.obj.rows;
+                    }
+                }).catch();
+            },
+            toDetail:function (category) {
+                sessionStorage.setItem("currentCategory",JSON.stringify(category));
+                location.href='productList.html';
+            },
+            addCount:function (count) {
+                count++;
+                this.shopCar.count=count;
+            },
+            reduceCount:function (count) {
+                count--;
+                if (count<0){
+                    layer.msg("不能再减少了")
+                    return;
+                }
+                this.shopCar.count=count;
+            },
+            addShopCar:function () {
+             let loginUser= JSON.parse(localStorage.getItem("loginUser"));
+             this.shopCar.userId=loginUser.id;
+             this.shopCar.productId=this.product.id;
+             this.shopCar.price=this.product.price*this.shopCar.count;
+             console.log(this.shopCar);
+             axios({
+                 url:'/shopCar/addShopCar',
+                 method:'put',
+                 data:this.shopCar
+             }).then(res=>{
+                 if (res.data.success){
+                     layer.msg(res.data.msg)
+                    location.href='car.html'
+                 }
+             }).catch();
+            },
+            favoriteProduct:function () {
+                axios({
+                    url:`/user/favoriteProduct/${this.loginUser.id}/${this.product.id}`,
+                    method:'get',
+                }).then(res=>{
+                    if (res.data.success){
+                        layer.msg(res.data.msg)
+                    }
+                }).catch();
+            }
+        },
+        created:function () {
+            this.product=JSON.parse(sessionStorage.getItem("currentProduct"));
+            this.selectCategoryList();
+            this.selectHotShopProductList();
+            this.selectImage();
+        }
+    })
+</script>
+
+</html>

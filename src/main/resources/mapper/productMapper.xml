@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.yjf.mapper.ProductMapper">
+
+
+
+
+    <select id="selectAll" resultType="Product">
+        SELECT
+        product.id,
+        product.class_id,
+        product.`desc`,
+        product.image,
+        product.is_hot,
+        product.price,
+        product.publish_date,
+        product.store_id,
+        product.title,
+        product.brows_count,
+        category.class_name,
+        store.store_name
+        FROM
+        product,
+        category,
+        store
+        <where>
+            product.class_id = category.id
+            AND product.store_id = store.id
+            <if test="categoryId != null and categoryId != ''">AND product.class_id = #{categoryId}</if>
+            <if test="isHot != null and isHot != ''">AND product.is_hot = #{isHot}</if>
+            <if test="title != null and title != ''">AND product.title LIKE CONCAT(
+                '%',
+                #{title},
+                '%')
+            </if>
+            order by product.publish_date desc
+        </where>
+    </select>
+
+
+</mapper>

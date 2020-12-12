@@ -10,28 +10,34 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="shop_car")
-public class ShopCar implements Serializable{
 
+public class ShopCar implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;//主键ID
+   private Integer id;
 
 	@Column(name = "user_id")
 	private Integer userId; //用户id
 
+
 	@Column(name="product_id")
 	private Integer productId; //商品id
+
+	@Transient
+	private Product product;
+
 	private Integer count; //数量
 	private Double price; //价钱
 
-	public Integer getId() {
-		return this.id;
+
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setId(Integer aValue) {
-		this.id = aValue;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-	
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
@@ -61,12 +67,21 @@ public class ShopCar implements Serializable{
 		return this.price;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "ShopCar{" +
 				"id=" + id +
 				", userId=" + userId +
 				", productId=" + productId +
+				", product=" + product +
 				", count=" + count +
 				", price=" + price +
 				'}';

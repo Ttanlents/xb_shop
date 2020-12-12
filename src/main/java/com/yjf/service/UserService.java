@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,9 +47,9 @@ public class UserService {
 	* @param user
 	*/
 	public void add(User user) {
-		user.setRegisterTime(new Date());
 		userDao.save(user);
 	}
+
 
 	/**
 	* 修改
@@ -89,5 +88,30 @@ public class UserService {
 	@Transactional
 	public void favoriteProduct(Integer userId, Integer productId) {
 		userDao.insertUserFav(userId,productId);
+	}
+
+
+	public Boolean isFavoriteProduct(Integer userId, Integer productId) {
+		return userDao.isFavoriteProduct(userId,productId)>0?true:false;
+	}
+	@Transactional
+	public void notFavoriteProduct(Integer userId, Integer productId) {
+		userDao.notFavoriteProduct(userId,productId);
+	}
+
+    public User getLoginUserInfo(Integer loginUserId) {
+		return 	userDao.findById(loginUserId).get();
+    }
+
+	public Integer myCarShopCount(Integer userId) {
+		return userDao.myCarShopCount(userId);
+	}
+
+	public Integer myOrderCount(Integer loginUserId) {
+		return userDao.myOrderCount(loginUserId);
+	}
+
+	public User getUserByOpenQqId(String openid) {
+		return userDao.findByQqOpenid(openid);
 	}
 }

@@ -61,12 +61,12 @@
                 <h6>Your stores. Your place.</h6>
             </div>
             <div class="header-search">
-                <form action="#" method="post">
+               <!-- <form action="#" method="post">
                     <input type="search" name="Search" placeholder="Search for a Product..." required="">
                     <button type="submit" class="btn btn-default" aria-label="Left Align">
                         <i class="fa fa-search" aria-hidden="true"> </i>
                     </button>
-                </form>
+                </form>-->
             </div>
             <div class="header-cart">
                 <div class="my-account">
@@ -162,7 +162,7 @@
         <div class="add-products-row">
 
             <div class=" w3ls-add-grids" v-for="p in hotProductList">
-                <a href="goodsDetail.html">
+                <a href="javascript:void(0);" @click="toProductDetail(p)">
                     <img :src="p.image">
                     <p>{{p.title}}<span>${{p.price}}</span></p>
                     <span @click="toProductDetail(p)">Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
@@ -176,6 +176,7 @@
     <div class="container">
         <p>Copyright &copy; 2020.XB All rights reserved.<a target="_blank" href="#"></a></p>
     </div>
+</div>
 </div>
 </div>
 </body>
@@ -236,7 +237,7 @@
                 location.href='productList.html';
             },
             toProductDetail:function(product){
-                sessionStorage.setItem("currentProduct",JSON.stringify(product));
+                sessionStorage.setItem("currentProductId",product.id);
                 location.href='goodsDetail.html';
             }
         },

@@ -114,12 +114,12 @@
                     <div class="col-md-6 col-sm-6 single-top-left">
                         <div id="magnifier">
                             <div class="small-box">
-                                <img src="images/big_1.jpg" alt="#">
+                                <img :src="product.image" alt="#">
                                 <span class="hover"></span>
                                 <span class="hover"></span>
                             </div>
                             <div class="big-box">
-                                <img src="images/big_1.jpg" alt="#">
+                                <img :src="product.image" alt="#">
                             </div>
                             <div class="thumbnail-box">
                                 <a href="javascript:void(0);" class="btn btn-prev btn_prev_disabled"></a>
@@ -178,8 +178,8 @@
                         <a href="javascript:void(0);">
                             <button class="w3ls-cart" @click="addShopCar"><i class="fa fa-cart-plus" aria-hidden="true"></i>添加到购物车</button>
                         </a>
-                        <button class="w3ls-cart w3ls-cart-like" @click="favoriteProduct"><i class="fa fa-heart-o"
-                                aria-hidden="true"></i>收藏</button>
+                        <button class="w3ls-cart w3ls-cart-like" @click="favoriteProduct"><i class="fa"
+                                aria-hidden="true" :class="isFavorite?'fa-heart':'fa-heart-o'"></i>{{isFavorite?'取消收藏':'收藏'}}</button>
                         <div class="single-page-icons social-icons">
                             <ul>
                                 <li>
@@ -206,10 +206,10 @@
             <div class="add-products-row">
 
                 <div class=" w3ls-add-grids" v-for="p in HotShopProductList">
-                    <a href="javascript:void(0);">
+                    <a href="javascript:void(0);" @click="toProductDetail(p)">
                         <img :src="p.image">
                         <p>{{p.title}}<span>${{p.price}}</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
+                        <span @click="toProductDetail(p)">Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
                     </a>
                 </div>
 
@@ -247,7 +247,8 @@
             product:{},
             imagesList:{},
             shopCar:{count:1},
-            loginUser:JSON.parse(localStorage.getItem("loginUser"))
+            loginUser:JSON.parse(localStorage.getItem("loginUser")),
+            isFavorite:{}
         },
         methods:{
             selectCategoryList:function (){
@@ -257,16 +258,6 @@
                 }).then(res=>{
                     if (res.data.success){
                         this.categoryList=res.data.obj;
-                    }
-                }).catch();
-            },
-            selectImage:function(){
-                axios({
-                    url:`/product/imagesList/${this.product.id}`,
-                    method:'get'
-                }).then(res=>{
-                    if (res.data.success){
-                        this.imagesList=res.data.obj;
                     }
                 }).catch();
             },
@@ -291,7 +282,7 @@
             },
             reduceCount:function (count) {
                 count--;
-                if (count<0){
+                if (count<1){
                     layer.msg("不能再减少了")
                     return;
                 }
@@ -321,15 +312,32 @@
                 }).then(res=>{
                     if (res.data.success){
                         layer.msg(res.data.msg)
+                        this.isFavorite=res.data.obj;
                     }
                 }).catch();
+            },
+            getGoodDetailByPId:function () {
+                axios({
+                    url:`product/getProductDetailByPId/${sessionStorage.getItem("currentProductId")}`,
+                    method:'get',
+                }).then(res=>{
+                    if (res.data.success){
+                        layer.msg(res.data.msg)
+                        this.product=res.data.obj.product;
+                        this.isFavorite=res.data.obj.flag;
+                        this.imagesList=res.data.obj.list;
+                    }
+                }).catch();
+            },
+            toProductDetail:function(product){
+                sessionStorage.setItem("currentProductId",product.id);
+                location.href='goodsDetail.html';
             }
         },
         created:function () {
-            this.product=JSON.parse(sessionStorage.getItem("currentProduct"));
+            this.getGoodDetailByPId();
             this.selectCategoryList();
             this.selectHotShopProductList();
-            this.selectImage();
         }
     })
 </script>

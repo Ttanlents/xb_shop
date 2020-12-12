@@ -37,5 +37,84 @@
         </where>
     </select>
 
+    <select id="selectOne" parameterType="Integer" resultType="Product">
+        SELECT
+        product.id,
+        product.class_id,
+        product.`desc`,
+        product.image,
+        product.is_hot,
+        product.price,
+        product.publish_date,
+        product.store_id,
+        product.title,
+        product.brows_count,
+        product.image_detail,
+        category.class_name,
+        store.store_name
+        FROM
+        product,
+        category,
+        store
+        <where>
+        product.class_id = category.id
+        AND product.store_id = store.id
+        AND product.id=#{id}
+        </where>
+    </select>
+
+    <select id="selectLoginUserNotPayOrder" parameterType="integer" resultType="map">
+        SELECT
+        order_item.*,
+        product.*
+        FROM
+        product,
+        order_item
+        WHERE
+        product.id = order_item.product_id
+        AND order_item.order_id IN (
+        SELECT
+        `order`.id
+        FROM
+        `order`
+        WHERE
+        `order`.user_id = #{id} and `order`.state=1)
+    </select>
+    <select id="selectAllOrder"  parameterType="integer" resultType="map">
+        SELECT
+        `order`.state,
+        order_item.*,
+        product.*
+        FROM
+        product,
+        order_item,
+        `order`
+      <where>
+          product.id = order_item.product_id
+          AND `order`.id = order_item.order_id
+          AND order_item.order_id IN ( SELECT `order`.id FROM `order` WHERE `order`.user_id = #{id} )
+          <if test="state != null and state != ''">  AND `order`.state = #{state}</if>
+      </where>
+    </select>
+
+    <select id="selectUserFavorite" parameterType="integer" resultType="Product">
+        SELECT
+        product.*,
+        store.store_name
+        FROM
+        product,
+        store
+        WHERE
+        product.store_id = store.id
+        AND product.id IN (
+        SELECT
+        user_favorite.product_id
+        FROM
+        user_favorite
+        WHERE
+        user_favorite.user_id = #{id})
+    </select>
+
+
 
 </mapper>

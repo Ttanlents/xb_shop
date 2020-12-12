@@ -88,8 +88,8 @@ mybatis:
   check-config-location: true
   configuration:
     map-underscore-to-camel-case: true  #驼峰式命名法
-    #call-setters-on-nulls: true #设置map中value为null也进行封装
-    #object-wrapper-factory: com.yjf.utils.MapWrapperFactory
+    call-setters-on-nulls: true #设置map中value为null也进行封装
+    object-wrapper-factory: com.yjf.utils.MapWrapperFactory
 
 logging:
   level:
@@ -114,3 +114,7 @@ file:
   requestPath: /images/**
   dir: D:/images/
 
+app_ID: 101837854
+app_KEY: 0ce88a9308a820ddf5bc28fdf0becd74
+redirect_URI: http://xb.dfbz.com/qq_login
+scope: get_user_info,add_topic,add_one_blog,add_album,upload_pic,list_album,add_share,check_page_fans,add_t,add_pic_t,del_t,get_repost_list,get_info,get_other_info,get_fanslist,get_idollist,add_idol,del_ido,get_tenpay_addr

@@ -18,9 +18,6 @@ public class User implements Serializable{
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer id;//主键ID
 
-	@Column(name="address_id")
-	private Integer addressId; //address_id
-
 
 	private String email; //email
 
@@ -37,8 +34,11 @@ public class User implements Serializable{
 	private Date loginTime; //login_time
 	private String pic; //pic
 	private String info; //info
-	private char gender; //gender
+	private String gender; //gender
 	private Integer age; //age
+
+	@Transient
+	private String receiveAddress;
 
 	@Column(name="qq_openid")
 	private String qqOpenid; //qq_openid
@@ -49,6 +49,16 @@ public class User implements Serializable{
 	@Column(name="wb_openid")
 	private String wbOpenid; //wb_openid
 
+	private String address;
+
+	public String getReceiveAddress() {
+		return receiveAddress;
+	}
+
+	public void setReceiveAddress(String receiveAddress) {
+		this.receiveAddress = receiveAddress;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -56,14 +66,15 @@ public class User implements Serializable{
 	public void setId(Integer aValue) {
 		this.id = aValue;
 	}
-	
-	public void setAddressId(Integer addressId) {
-		this.addressId = addressId;
+
+	public String getAddress() {
+		return address;
 	}
 
-	public Integer getAddressId() {
-		return this.addressId;
+	public void setAddress(String address) {
+		this.address = address;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -127,11 +138,11 @@ public class User implements Serializable{
 	public String getInfo() {
 		return this.info;
 	}
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public char getGender() {
+	public String getGender() {
 		return this.gender;
 	}
 	public void setAge(Integer age) {
@@ -167,7 +178,6 @@ public class User implements Serializable{
 	public String toString() {
 		return "User{" +
 				"id=" + id +
-				", addressId=" + addressId +
 				", email='" + email + '\'' +
 				", realName='" + realName + '\'' +
 				", password='" + password + '\'' +

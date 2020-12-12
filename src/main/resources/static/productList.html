@@ -113,9 +113,9 @@
                             <div class="new-tag">
                                 <h6>TOP1 <br> Hot</h6>
                             </div>
-                            <a href="goodsDetail.html"><img :src="product.image" class="img-responsive" alt="img"></a>
+                            <a href="javascript:void(0);"  @click="toProductDetail(product)"><img :src="product.image" class="img-responsive" alt="img"></a>
                             <div class="agile-product-text">
-                                <h5><a href="goodsDetail.html">{{product.title}}</a></h5>
+                                <h5><a href="javascript:void(0);"  @click="toProductDetail(product)">{{product.title}}</a></h5>
                                 <h6>${{product.price}}</h6>
                                 <h6>{{product.storeName}}</h6>
                                 <button type="button" class="w3ls-cart pw3ls-cart" @click="toProductDetail(product)">
@@ -128,18 +128,18 @@
                     <div class="col-md-12">
                         <nav class="navbar-right" aria-label="Page navigation">
                             <ul class="pagination">
-                                <li class="disabled">
-                                    <a href="javascript:void(0);" aria-label="Previous" @click="selectHotProductList(1,pageCurrent-1,12)">
+                                <li>
+                                    <a href="javascript:void(0);" aria-label="Previous" @click="selectHotProductList(1,pageCurrent-1,5)">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
 
 
-                                <li v-for="i in pageTotal" :class="i==this.pageCurrent?'active':''"><a href="javascript:void(0);" @click="selectHotProductList(1,i,12)">{{i}}</a></li>
+                                <li v-for="i in pageTotal" :class="i==this.pageCurrent?'active':''"><a href="javascript:void(0);" @click="selectHotProductList(1,i,5)">{{i}}</a></li>
 
 
                                 <li>
-                                    <a href="javascript:void(0);" aria-label="Next" @click="selectHotProductList(1,pageCurrent+1,12)">
+                                    <a href="javascript:void(0);" aria-label="Next" @click="selectHotProductList(1,pageCurrent+1,5)">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -162,10 +162,10 @@
         <div class="container">
             <div class="add-products-row">
                 <div class=" w3ls-add-grids" v-for="p in HotShopProductList">
-                    <a href="javaScript:void(0);">
+                    <a href="javaScript:void(0);" @click="toProductDetail(p)">
                         <img :src="p.image">
                         <p>{{p.title}}<span>${{p.price}}</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
+                        <span @click="toProductDetail(p)">Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
                     </a>
                 </div>
 
@@ -209,7 +209,7 @@
                     }
                 }).catch();
             },
-            selectHotProductList:function (isHot=1,pageCurrent=1,pageSize=12){
+            selectHotProductList:function (isHot=1,pageCurrent=1,pageSize=5){
                 if (pageCurrent<=0){
                     layer.msg('到顶啦');
                     return;
@@ -247,7 +247,7 @@
                 location.href='productList.html';
             },
             toProductDetail:function(product){
-                sessionStorage.setItem("currentProduct",JSON.stringify(product));
+                sessionStorage.setItem("currentProductId",product.id);
                 location.href='goodsDetail.html';
             }
         },

@@ -26,6 +26,7 @@
     <script src="js/del.js"></script>
 </head>
 <body>
+<div id="app">
     <div class="header">
         <div class="w3ls-header">
             <div class="w3ls-header-left">
@@ -63,12 +64,12 @@
                     <h6>Your stores. Your place.</h6>
                 </div>
                 <div class="header-search">
-                    <form action="#" method="post">
+                    <!--<form action="#" method="post">
                         <input type="search" name="Search" placeholder="Search for a Product..." required="">
                         <button type="submit" class="btn btn-default" aria-label="Left Align">
                             <i class="fa fa-search" aria-hidden="true"> </i>
                         </button>
-                    </form>
+                    </form>-->
                 </div>
                 <div class="header-cart">
                     <div class="my-account">
@@ -88,13 +89,7 @@
         <div class="header-three">
             <div class="container">
                 <ul class="nav nav-pills nav-justified">
-                    <li><a href="productList.html">仙女列表</a></li>
-                    <li><a href="productList.html">可爱列表</a></li>
-                    <li><a href="productList.html">咔咔列表</a></li>
-                    <li><a href="productList.html">哒哒列表</a></li>
-                    <li><a href="productList.html">可爱列表</a></li>
-                    <li><a href="productList.html">咔咔列表</a></li>
-                    <li><a href="productList.html">憨憨列表</a></li>
+                    <li v-for="category in categoryList"><a href="javascript:void(0);" @click="toDetail(category)">{{category.className}}</a></li>
                 </ul>
             </div>
         </div>
@@ -125,71 +120,41 @@
                         </div>
                     </div>
                     <div class="goods-content">
-                        <div class="goods-item">
+                        <div class="goods-item" v-for="product in waitPayOrder">
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="col-md-3 col-sm-2 col-xs-2 car-goods-info goods-image-column">
                                         <a href="goodsDetail.html">
-                                            <img class="goods-image" src="images/e3.png" />
+                                            <img class="goods-image" :src="product.image" />
                                         </a>
                                     </div>
                                     <div class="col-md-3 col-sm-2 col-xs-2 car-goods-info goods-params">
                                         <p class="goods-info">
-                                            宇宙无敌超级第一手机1
+                                            {{product.desc}}
                                         </p>
                                     </div>
                                     <div class="col-md-1 col-sm-2 col-xs-2 car-goods-info goods-price">
-                                        <span class="goods-price single-price">￥199.00</span></div>
+                                        <span class="goods-price single-price">￥{{product.price}}</span></div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 car-goods-info goods-counts">
                                         <div class="input-group">
                                             <input type="text" disabled class="btn num form-control goods-count"
-                                                value="1">
+                                                v-model="product.count">
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-sm-2 col-xs-2 car-goods-info goods-money-count">
-                                        <span class="goods-totalMoney single-total">￥199.00</span></div>
+                                        <span class="goods-totalMoney single-total">￥{{product.totalPrice}}</span></div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 car-goods-info goods-operate">
-                                        <a href="waitPay.html" class="btn btn-primary item-delete">结算</a>
-                                        <a data-toggle="modal" data-target=".bs-example-modal-sm" href="#"
-                                            class="btn btn-danger item-delete">删除</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goods-item">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="col-md-3 col-sm-2 col-xs-2 car-goods-info goods-image-column">
-                                        <a href="goodsDetail.html">
-                                            <img class="goods-image" src="images/e3.png" />
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-sm-2 col-xs-2 car-goods-info goods-params">
-                                        <p class="goods-info">
-                                            宇宙无敌超级第一手机2
-                                        </p>
-                                    </div>
-                                    <div class="col-md-1 col-sm-2 col-xs-2 car-goods-info goods-price">
-                                        <span class="goods-price single-price">￥199.00</span></div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2 car-goods-info goods-counts">
-                                        <div class="input-group">
-                                            <input type="text" disabled class="btn num form-control goods-count"
-                                                value="1">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1 col-sm-2 col-xs-2 car-goods-info goods-money-count">
-                                        <span class="goods-totalMoney single-total">￥199.00</span></div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2 car-goods-info goods-operate">
-                                        <a href="waitPay.html" class="btn btn-primary item-delete">结算</a>
-                                        <a data-toggle="modal" data-target=".bs-example-modal-sm" href="#"
-                                            class="btn btn-danger item-delete">删除</a>
+                                        <a href="javaScript:void(0);" class="btn btn-primary item-delete" @click="toAliPay(product.orderId)">结算</a>
+                                        <a  href="javascript:void(0);"
+                                            class="btn btn-danger item-delete" @click="doDelete(product)">删除</a>
+                                        <!--data-toggle="modal" data-target=".bs-example-modal-sm"-->
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="goods-btns text-right">
-                            <input disabled class="btn btn-default goodsList-totalMoney" value="$111">
-                            <a class="btn btn-primary" href="waitPay.html">全部结算</a>
+                            <input disabled class="btn btn-default goodsList-totalMoney" :value="['$'+allPrice]">
+                            <a class="btn btn-primary" href="javascript:void(0);" @click="toAliPayAll">全部结算</a>
                         </div>
                     </div>
                     <!--删除确认弹框-->
@@ -225,34 +190,13 @@
         <h3 class="w3ls-title">热卖商品</h3>
         <div class="container">
             <div class="add-products-row">
-                <div class=" w3ls-add-grids">
-                    <a href="goodsDetail.html">
-                        <img src="./images/img1.jpg">
-                        <p>无敌单品<span>$20</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
+                <div class=" w3ls-add-grids" v-for="p in HotShopProductList">
+                    <a href="javascript:void(0);"  @click="toProductDetail(p)">
+                        <img :src="p.image">
+                        <p>{{p.title}}<span>${{p.price}}</span></p>
+                        <span  @click="toProductDetail(p)">Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
                     </a>
                 </div>
-                <div class=" w3ls-add-grids">
-                    <a href="goodsDetail.html">
-                        <img src="./images/img2.jpg">
-                        <p>无敌单品<span>$20</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
-                    </a>
-                </div>
-                <div class=" w3ls-add-grids">
-                    <a href="goodsDetail.html">
-                        <img src="./images/img3.jpg">
-                        <p>无敌单品<span>$20</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
-                    </a>
-
-                </div>
-                <div class=" w3ls-add-grids">
-                    <a href="goodsDetail.html">
-                        <img src="./images/img3.jpg">
-                        <p>无敌单品<span>$20</span></p>
-                        <span>Shop now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
-                    </a></div>
             </div>
         </div>
     </div>
@@ -262,6 +206,113 @@
             <p>Copyright &copy; 2020.XB All rights reserved.<a target="_blank" href="#"></a></p>
         </div>
     </div>
+</div>
 </body>
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/layer.js"></script>
+<script src="js/axios-0.19.2.min.js"></script>
+<script src="js/vue-2.6.11.js"></script>
+<script src="js/jquery-cookie-1.4.1.js"></script>
 
+<script>
+
+    let vm=new Vue({
+        el:'#app',
+        data:{
+            categoryList:{},
+            HotShopProductList:{},
+            title:"",
+            loginUser:JSON.parse(localStorage.getItem("loginUser")),
+            waitPayOrder:{},
+            allPrice:0
+
+        },
+        methods:{
+            selectCategoryList:function (){
+                axios({
+                    url:'/home/categoryList',
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){
+                        this.categoryList=res.data.obj;
+                    }
+                }).catch();
+            },
+            selectHotShopProductList:function (isHot=1){
+                axios({
+                    url:`/home/productList/${isHot}`,
+                    method:'get',
+                    params:{title:this.title,pageCurrent:1,pageSize:4}
+                }).then(res=>{
+                    if (res.data.success){
+                        this.HotShopProductList=res.data.obj.rows;
+                    }
+                }).catch();
+            },
+            toDetail:function (category) {
+                sessionStorage.setItem("currentCategory",JSON.stringify(category));
+                location.href='productList.html';
+            },
+            selectNotPay:function () {
+                axios({
+                    url:'order/selectNotPay',
+                    method:'get',
+                }).then(res=>{
+                    this.allPrice=0;
+                    if (res.data.success){
+                        this.waitPayOrder=res.data.obj;
+                        for(let i=0;i<this.waitPayOrder.length;i++){
+                            this.allPrice+=this.waitPayOrder[i].totalPrice;
+                        }
+                    }
+                }).catch();
+            },
+            toAliPay:function (orderId) {
+                axios({
+                    url:'aliPay/pay',
+                    method:'post',
+                    params:{orderId:orderId,subject:"客户的商品订单",body:"这是描述"}
+                }).then(res=>{
+                    if (res.data.success){
+                        layer.msg("支付成功");
+                        document.write(res.data.obj)
+                    }
+                });
+            },
+            toAliPayAll:function () {
+                axios({
+                    url:'aliPay/payAll',
+                    method:'post',
+                    params:{subject:"客户的商品订单",body:"这是描述"}
+                }).then(res=>{
+                    if (res.data.success){
+                        layer.msg("支付成功");
+                        document.write(res.data.obj)
+                    }
+                });
+            },
+            toProductDetail:function(product){
+                sessionStorage.setItem("currentProductId",product.id);
+                location.href='goodsDetail.html';
+            },
+            doDelete:function (product) {
+                axios({
+                    url:`order/doDelete/${product.orderId}/${product.productId}`,
+                    method:'delete',
+                }).then(res=>{
+                    if (res.data.success){
+                        this.selectNotPay();
+                       alert("删除成功哦");
+                    }
+                });
+            }
+        },
+        created:function () {
+            this.selectCategoryList();
+            this.selectHotShopProductList();
+            this.selectNotPay();
+        }
+    })
+
+</script>
 </html>

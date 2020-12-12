@@ -72,6 +72,8 @@ $.fn.bMap = function (option) {
         map.addEventListener("click", function (e) {
             marker(e.point);
             console.log(e.point)
+
+
             getLocation(e.point)
         });
         var valtemp = $input.val();

@@ -3,6 +3,7 @@ $(function () {
         name: "callback",
         callback: function (address, point) {
             console.log(JSON.stringify(address));
+            sessionStorage.setItem("currentAddress",JSON.stringify(address));
         }
     });
     $(".bMap #Map_input_callback").addClass("form__input");

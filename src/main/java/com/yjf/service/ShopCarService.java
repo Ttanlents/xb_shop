@@ -2,11 +2,13 @@ package com.yjf.service;
 
 import com.yjf.dao.ShopCarDao;
 import com.yjf.entity.ShopCar;
+import com.yjf.mapper.ShopCarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,6 +29,8 @@ public class ShopCarService {
 
 	@Autowired
 	private ShopCarDao shopCarDao;
+	@Autowired
+	private ShopCarMapper shopCarMapper;
 
 
 
@@ -74,6 +78,7 @@ public class ShopCarService {
 	* 增加
 	* @param shopCar
 	*/
+
 	public void add(ShopCar shopCar) {
 		shopCarDao.save(shopCar);
 	}
@@ -128,4 +133,27 @@ public class ShopCarService {
 		};
 	}
 
+	public ShopCar findByUserIdAndPId(Integer userId, Integer productId) {
+		return shopCarDao.findByUserIdAndProductId(userId,productId);
+	}
+
+	public List<ShopCar> selectAll(Integer loginUserId) {
+		return shopCarMapper.selectAll(loginUserId);
+	}
+
+	@Transactional
+	public void updateCountByUserIdAndPId(Integer userId, Integer productId) {
+
+		shopCarDao.updateCountByUserIdAndPId(userId,productId);
+
+	}
+
+	@Transactional
+    public void updateShopCarCount(Integer shopCarId, Integer count) {
+		shopCarDao.updateShopCarCount(shopCarId,count);
+    }
+
+	public List<ShopCar> findByUserId(Integer id) {
+		return shopCarDao.findByUserId(id);
+	}
 }

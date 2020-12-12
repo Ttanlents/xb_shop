@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -161,5 +162,29 @@ public class ProductService {
 
 	public  Product findImageListById(Integer productId) {
 		return productDao.findById(productId).get();
+	}
+
+
+	public List<Map<String, Object>> selectLoginUserNotPayOrder(Integer loginUserId) {
+		return productMapper.selectLoginUserNotPayOrder(loginUserId);
+	}
+	public List<Map<String, Object>> selectAllOrder(Integer loginUserId,Integer state) {
+		return productMapper.selectAllOrder(loginUserId,state);
+	}
+
+	public PageInfo<Product> selectUserFavorite(Integer loginUserId,Integer pageCurrent) {
+		PageHelper.startPage(pageCurrent,3);
+		List<Product> productList = productMapper.selectUserFavorite(loginUserId);
+		PageInfo<Product> productPageInfo = new PageInfo<>(productList);
+		return productPageInfo;
+	}
+
+    public Product getProductDetailByPId(Integer productId) {
+		return  productMapper.selectOne(productId);
+    }
+
+    @Transactional
+	public void updateBrowseCount(Integer productId) {
+		productDao.updateBrowseCount(productId);
 	}
 }
